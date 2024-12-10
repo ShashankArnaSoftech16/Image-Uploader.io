@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h3>Upload an Image</h3>
+    <form id="imageUploadForm" enctype="multipart/form-data" method="post">
+        <input type="file" name="imageUpload" accept="image/*" class="form-control" id="imageUploadInput">
+        <br>
+        <!-- Dropdown Menu Section -->
+        <h3>Select a Cloud Storage Option</h3>
+        <select class="form-select" id="cloudStorageSelect" name="cloudStorage">
+            <option value="Dropbox">Dropbox</option>
+            <option value="GoogleDrive">Google Drive</option>
+            <option value="OneDrive">OneDrive</option>
+            <option value="SharePoint">SharePoint</option>
+        </select>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+    <h3>Uploaded Image URL</h3>
+    <div id="imageUrlContainer" style="display:none;">
+        <p>Your image is uploaded! <a id="uploadedImageLink" href="" target="_blank">Click here to view the image</a></p>
+    </div>
+</div>
+
+
+<script>
+        document.getElementById("imageUploadForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent the form from submitting immediately
+
+        const selectedCloudStorage = document.getElementById("cloudStorageSelect").value;
+        const imageFile = document.getElementById("imageUploadInput").files[0];
+
+        // image validation
+        if (!imageFile) {
+            alert("Please select an image to upload.");
+            return;
+        }
+
+    //     if (selectedCloudStorage === "Dropbox") {
+    //     window.location.href = "/Home/Authenticate";
+    //     return;
+    // }
+
+        // For other cloud storage options, upload immediately
+        const formData = new FormData();
+        formData.append("imageUpload", imageFile);
+        formData.append("cloudStorage", selectedCloudStorage);
+
+        fetch("/Home/UploadImage", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Image uploaded successfully.");
+                const imageUrl = data.imageUrl;
+
+                const imageUrlContainer = document.getElementById("imageUrlContainer");
+                const uploadedImageLink = document.getElementById("uploadedImageLink");
+
+                uploadedImageLink.href = imageUrl;
+                uploadedImageLink.textContent = "Click here to view the uploaded image";
+                imageUrlContainer.style.display = 'block';
+            } else {
+                alert("Image upload failed: " + data.message);
+            }
+        })
+        .catch(error => {
+            alert("Error uploading image: " + error.message);
+        });
+    });
+</script>

@@ -1,0 +1,49 @@
+# Ignore build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]istPublic/
+bin/
+obj/
+
+# User-specific files
+.idea/
+.vscode/
+
+# User-specific files for Visual Studio
+.vs/
+.vs2019/
+.vs2017/
+.vs2015/
+
+# User-specific files for JetBrains Rider
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files
+*.vsix
+.vs
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+
+# .NET Core files
+project.lock.json
+project.fragment.lock.json
+
+# .NET config files
+appsettings.Development.json
+appsettings.Local.json
+appsettings.json
+secrets.json
+credentials.json
+image-uploader-443816-eb748645b94d.json
